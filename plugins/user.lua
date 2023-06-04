@@ -7,7 +7,7 @@ return {
     "hrsh7th/nvim-cmp",
     opts = function(_, opts)
       local cmp = require("cmp")
-      
+
       local border_opts = {
         border = "single",
         winhighlight = "Normal:Normal,FloatBorder:Normal,CursorLine:Visual,Search:None",
@@ -65,6 +65,28 @@ return {
       { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
       { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
       { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+      {
+        "[q",
+        function()
+          if require("trouble").is_open() then
+            require("trouble").previous({ skip_groups = true, jump = true })
+          else
+            vim.cmd.cprev()
+          end
+        end,
+        desc = "Previous trouble/quickfix item",
+      },
+      {
+        "]q",
+        function()
+          if require("trouble").is_open() then
+            require("trouble").next({ skip_groups = true, jump = true })
+          else
+            vim.cmd.cnext()
+          end
+        end,
+        desc = "Next trouble/quickfix item",
+      },
     },
     opts = {
       use_diagnostic_signs = true,
@@ -98,8 +120,65 @@ return {
     init = function() vim.g.lsp_handlers_enabled = false end,
   },
   {
-    "tpope/vim-unimpaired",
-    event = "BufReadPost",
+    'tummetott/unimpaired.nvim',
+    event = "User AstroFile",
+    config = function()
+      require('unimpaired').setup {
+        default_keymaps = false,
+        keymaps = {
+          -- cprevious = {
+          --   mapping = '[q',
+          --   description = 'Jump to [count] previous entry in qflist',
+          --   dot_repeat = true,
+          -- },
+          -- cnext = {
+          --   mapping = ']q',
+          --   description = 'Jump to [count] next entry in qflist',
+          --   dot_repeat = true,
+          -- },
+          cfirst = {
+            mapping = '[Q',
+            description = 'Jump to first entry in qflist',
+            dot_repeat = false,
+          },
+          clast = {
+            mapping = ']Q',
+            description = 'Jump to last entry in qflist',
+            dot_repeat = false,
+          },
+          blank_above = {
+            mapping = '[<Space>',
+            description = 'Add [count] blank lines above',
+            dot_repeat = true,
+          },
+          blank_below = {
+            mapping = ']<Space>',
+            description = 'Add [count] blank lines below',
+            dot_repeat = true,
+          },
+          exchange_above = {
+            mapping = '[e',
+            description = 'Exchange line with [count] lines above',
+            dot_repeat = true,
+          },
+          exchange_below = {
+            mapping = ']e',
+            description = 'Exchange line with [count] lines below',
+            dot_repeat = true,
+          },
+          exchange_section_above = {
+            mapping = '[e',
+            description = 'Move section [count] lines up',
+            dot_repeat = true,
+          },
+          exchange_section_below = {
+            mapping = ']e',
+            description = 'Move section [count] lines down',
+            dot_repeat = true,
+          },
+        },
+      }
+    end,
   },
   {
     "tpope/vim-rsi",
@@ -141,6 +220,14 @@ return {
       require("mini.surround").setup(opts)
     end,
   },
+  { 
+    "sindrets/diffview.nvim",
+    keys = {
+      { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff File History" },
+      { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview"},
+    },
+  },
+  { import = "user.plugins.lang.lua" },
   { import = "user.plugins.lang.java" },
   { import = "user.plugins.lang.bash" },
 }

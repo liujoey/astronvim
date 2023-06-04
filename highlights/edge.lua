@@ -1,4 +1,3 @@
-vim.cmd('set background=light')
 local configuration = vim.fn['edge#get_configuration']()
 local palette = vim.fn['edge#get_palette'](configuration.style, configuration.dim_foreground, configuration.colors_override)
 

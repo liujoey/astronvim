@@ -1,3 +1,5 @@
+vim.cmd('set background=light')
+
 return {
   -- Configure AstroNvim updates
   updater = {
