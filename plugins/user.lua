@@ -20,6 +20,30 @@ return {
     end,
   },
   {
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      local telescope = require("telescope")
+      local lga_actions = require("telescope-live-grep-args.actions")
+      telescope.setup {
+        extensions = {
+          live_grep_args = {
+            auto_quoting = true,
+            mappings = { -- extend mappings
+              i = {
+                ["<C-y>"] = lga_actions.quote_prompt(),
+                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              },
+            },
+          }
+        }
+      }
+      telescope.load_extension("live_grep_args")
+    end
+  },
+  {
     "nvim-telescope/telescope.nvim",
     opts = {
       defaults = {
@@ -39,32 +63,46 @@ return {
     },
   },
   {
-    "ggandor/leap.nvim",
+    "folke/flash.nvim",
+    event = "User AstroFile",
+    ---@type Flash.Config
+    opts = {},
     keys = {
-      { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
-      { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
-      { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-    },
-    config = function(_, opts)
-      local leap = require "leap"
-      for k, v in pairs(opts) do
-        leap.opts[k] = v
-      end
-      leap.add_default_mappings(true)
-    end,
-    dependencies = {
-      "tpope/vim-repeat",
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          -- default options: exact mode, multi window, all directions, with a backdrop
+          require("flash").jump()
+        end,
+        desc = "Flash",
+      },
+      {
+        "S",
+        mode = { "n", "o", "x" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
     },
   },
   {
     "folke/trouble.nvim",
     cmd = { "TroubleToggle", "Trouble" },
     keys = {
-      { "<leader>x", desc = "Trouble" },
-      { "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+      { "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
+      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics" },
+      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List" },
+      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List" },
       {
         "[q",
         function()
@@ -182,6 +220,10 @@ return {
   },
   {
     "tpope/vim-rsi",
+    event = "InsertEnter",
+  },
+  {
+    "tpope/vim-repeat",
     event = "InsertEnter",
   },
   {
