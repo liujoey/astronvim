@@ -29,7 +29,7 @@ return {
       opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, { "javadbg", "javatest" })
     end,
   },
-  
+
   {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
@@ -66,7 +66,7 @@ return {
         resolveAdditionalTextEditsSupport = true,
         progressReportProvider = false,
       })
-      
+
       local bundles = {
         vim.fn.glob(
         require("mason-registry").get_package("java-debug-adapter"):get_install_path()
@@ -81,7 +81,7 @@ return {
           )
         ),
       }
-      
+
       local defaults = {
         cmd = {
           "java",
@@ -227,7 +227,12 @@ return {
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           -- ensure that only the jdtls client is activated
-          if client.name == "jdtls" then require("jdtls.dap").setup_dap_main_class_configs() end
+          if client.name == "jdtls" then
+            if vim.fn.filereadable('.vscode/launch.json') then
+              require('dap.ext.vscode').load_launchjs()
+            end
+            require("jdtls.dap").setup_dap_main_class_configs()
+          end
         end,
       })
     end,
