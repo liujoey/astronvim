@@ -20,53 +20,29 @@ return {
     end,
   },
   {
-    "nvim-telescope/telescope-live-grep-args.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-    },
+    "ibhagwan/fzf-lua",
+    cmd = "FzfLua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      local telescope = require("telescope")
-      local lga_actions = require("telescope-live-grep-args.actions")
-      telescope.setup {
-        extensions = {
-          live_grep_args = {
-            auto_quoting = true,
-            mappings = { -- extend mappings
-              i = {
-                ["<C-y>"] = lga_actions.quote_prompt(),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-              },
-            },
-          }
-        }
-      }
-      telescope.load_extension("live_grep_args")
+      -- calling `setup` is optional for customization
+      local fzf = require("fzf-lua")
+      fzf.setup()
+      fzf.register_ui_select()
     end
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    opts = {
-      defaults = {
-        prompt_prefix = string.format(" %s  ", require("astronvim.utils").get_icon "Search"),
-        mappings = {
-          i = {
-            ["<c-t>"] = function(...)
-              return require("trouble.providers.telescope").open_with_trouble(...)
-            end,
-            ["<C-n>"] = require("telescope.actions").move_selection_next,
-            ["<C-p>"] = require("telescope.actions").move_selection_previous,
-            ["<C-j>"] = require("telescope.actions").cycle_history_next,
-            ["<C-k>"] = require("telescope.actions").cycle_history_prev,
-          },
-        },
-      },
-    },
   },
   {
     "folke/flash.nvim",
     event = "User AstroFile",
     ---@type Flash.Config
-    opts = {},
+    opts = {
+      modes = {
+        search = {
+          -- Don't activate flash with default search / and ?, toggle it with <C-s>
+          enabled = false,
+        },
+      },
+    },
     keys = {
       {
         "s",
@@ -92,6 +68,22 @@ return {
           require("flash").remote()
         end,
         desc = "Remote Flash",
+      },
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Flash Treesitter Search",
+      },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function()
+          require("flash").toggle()
+        end,
+        desc = "Toggle Flash Search",
       },
     },
   },

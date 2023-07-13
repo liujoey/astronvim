@@ -6,10 +6,10 @@
 return {
   -- first key is the mode
   n = {
-    ["<leader><space>"] = { function() require("telescope.builtin").find_files() end, desc = "Find files" },
+    ["<leader><space>"] = { function() require("fzf-lua").git_files() end, desc = "Find files" },
     ["<leader>`"] = { "<cmd>e #<cr>", desc = "Switch to Other Buffer" },
-    ["<leader>,"] = { function() require("telescope.builtin").buffers() end, desc = "Find buffers" },
-    ["<leader>fw"] = { function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = "Find words" },
+    ["<leader>,"] = { function() require("fzf-lua").buffers() end, desc = "Find buffers" },
+    ["<leader>fw"] = { function() require('fzf-lua').live_grep_native() end, desc = "Find words" },
     ["<leader>x"] = { desc = " Trouble"},
     ["<left>"] = { function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end, desc = "Previous buffer" },
     ["<right>"] = { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" },
