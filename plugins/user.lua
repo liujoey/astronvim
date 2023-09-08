@@ -20,6 +20,12 @@ return {
     end,
   },
   {
+    "stevearc/dressing.nvim",
+    opts = {
+      select = { backend = { "fzf_lua" } },
+    },
+  },
+  {
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
     -- optional for icon support
@@ -27,8 +33,11 @@ return {
     config = function()
       -- calling `setup` is optional for customization
       local fzf = require("fzf-lua")
-      fzf.setup()
-      fzf.register_ui_select()
+      fzf.setup({
+        grep = {
+          rg_glob = true,
+        },
+      })
     end
   },
   {
@@ -254,12 +263,50 @@ return {
       require("mini.surround").setup(opts)
     end,
   },
-  { 
+  {
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim",
+      "ibhagwan/fzf-lua",
+      "sindrets/diffview.nvim",
+    },
+    opts = {
+      signs = {
+        section = { "", "" },
+        item = { "", "" },
+        hunk = { "", "" },
+      },
+      integrations = {
+        telescope = false,
+        diffview = true,
+      }
+    },
+    config = function(_, opts)
+      require('neogit').setup(opts)
+    end,
+  },
+  {
     "sindrets/diffview.nvim",
     keys = {
       { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff File History" },
       { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview"},
     },
+    config = function()
+      require("diffview").setup({
+        keymaps = {
+          file_panel = {
+            ["<up>"] = false,
+            ["<down>"] = false,
+          },
+          file_history_panel = {
+            ["<up>"] = false,
+            ["<down>"] = false,
+          }
+        }
+      })
+    end,
   },
   { import = "user.plugins.lang.lua" },
   { import = "user.plugins.lang.java" },

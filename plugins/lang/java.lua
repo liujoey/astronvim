@@ -162,7 +162,7 @@ return {
               includeDecompiledSources = true,
             },
             saveActions = {
-              organizeImports = true,
+              organizeImports = false,
             },
             signatureHelp = { enabled = true },
             sources = {
