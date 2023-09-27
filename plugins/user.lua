@@ -308,6 +308,13 @@ return {
       })
     end,
   },
+  {
+    "tpope/vim-fugitive",
+    keys = {
+      { "<leader>gb", "<cmd>Git blame<cr>", desc = "Inline Blame" },
+    },
+    cmd = "Git"
+  },
   { import = "user.plugins.lang.lua" },
   { import = "user.plugins.lang.java" },
   { import = "user.plugins.lang.bash" },
