@@ -34,6 +34,11 @@ return {
       -- calling `setup` is optional for customization
       local fzf = require("fzf-lua")
       fzf.setup({
+        winopts = {
+          preview = {
+            flip_columns = 125,
+          },
+        },
         grep = {
           rg_glob = true,
         },
