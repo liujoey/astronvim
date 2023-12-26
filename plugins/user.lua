@@ -1,7 +1,9 @@
 return {
   {
-    "sainnhe/edge",
+    "craftzdog/solarized-osaka.nvim",
     lazy = false,
+    priority = 1000,
+    opts = {},
   },
   {
     "hrsh7th/nvim-cmp",
@@ -53,6 +55,9 @@ return {
       modes = {
         search = {
           -- Don't activate flash with default search / and ?, toggle it with <C-s>
+          enabled = false,
+        },
+        char = {
           enabled = false,
         },
       },
@@ -319,6 +324,34 @@ return {
       { "<leader>gb", "<cmd>Git blame<cr>", desc = "Inline Blame" },
     },
     cmd = "Git"
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
+    },
+    keys = {
+      { "<leader>aa", function () require("harpoon"):list():append() end, desc = "Add current" },
+      { "<leader>al", function ()
+        local harpoon = require("harpoon")
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end,
+      desc = "Select" },
+    },
+    config = function()
+      local harpoon = require("harpoon")
+      harpoon:setup()
+    end,
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
   },
   { import = "user.plugins.lang.lua" },
   { import = "user.plugins.lang.java" },

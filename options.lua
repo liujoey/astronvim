@@ -8,6 +8,7 @@ return {
     signcolumn = "yes",
     wrap = false,
     scrolloff = 7,
+    cursorline = false,
   },
   g = {
     mapleader = " ",

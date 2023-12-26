@@ -1,5 +1,3 @@
-vim.cmd('set background=light')
-
 return {
   -- Configure AstroNvim updates
   updater = {
@@ -20,7 +18,7 @@ return {
   },
 
   -- Set colorscheme to use
-  colorscheme = "edge",
+  colorscheme = "solarized-osaka-night",
 
   -- Configure require("lazy").setup() options
   lazy = {
