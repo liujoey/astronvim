@@ -18,7 +18,7 @@ return {
   },
 
   -- Set colorscheme to use
-  colorscheme = "solarized-osaka-night",
+  colorscheme = "catppuccin-mocha",
 
   -- Configure require("lazy").setup() options
   lazy = {

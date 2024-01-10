@@ -19,6 +19,16 @@ return {
       return opts
     end,
   },
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      background_colour = "#000000",
+    },
+  },
+  { 
+    "max397574/better-escape.nvim",
+    opts = { mapping = {",n", ",j"} },
+  },
   -- You can disable default plugins as follows:
   { "nvim-telescope/telescope.nvim", enabled = false, },
   -- { "max397574/better-escape.nvim", enabled = false },

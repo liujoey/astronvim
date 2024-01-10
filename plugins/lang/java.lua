@@ -231,7 +231,7 @@ return {
             if vim.fn.filereadable('.vscode/launch.json') then
               require('dap.ext.vscode').load_launchjs()
             end
-            require("jdtls.dap").setup_dap_main_class_configs()
+            -- require("jdtls.dap").setup_dap_main_class_configs()
           end
         end,
       })

@@ -1,9 +1,11 @@
 return {
   {
-    "craftzdog/solarized-osaka.nvim",
-    lazy = false,
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
-    opts = {},
+    opts = {
+      transparent_background = true,
+    }
   },
   {
     "hrsh7th/nvim-cmp",
@@ -52,6 +54,7 @@ return {
     event = "User AstroFile",
     ---@type Flash.Config
     opts = {
+      labels = "arstgmneiodhqwfpbjluyzxcvk",
       modes = {
         search = {
           -- Don't activate flash with default search / and ?, toggle it with <C-s>
@@ -352,6 +355,13 @@ return {
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
+  },
+  {
+    "karb94/neoscroll.nvim",
+    event = "User AstroFile",
+    config = function ()
+      require('neoscroll').setup {}
+    end
   },
   { import = "user.plugins.lang.lua" },
   { import = "user.plugins.lang.java" },
